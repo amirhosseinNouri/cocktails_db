@@ -1,7 +1,6 @@
 import axios from "axios";
 import React from "react";
 import { useParams, Link } from "react-router-dom";
-import Cocktail from "../components/Cocktail";
 
 export default function SingleCocktail(props) {
   const { id } = useParams();
