@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
+import Cocktail from "../components/Cocktail";
 
 export default function SingleCocktail(props) {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export default function SingleCocktail(props) {
           const {
             strDrink: name,
             strDrinkThumb: image,
-            strAlcoholic : info,
+            strAlcoholic: info,
             strCategory: category,
             strGlass: glass,
             strInstructions: instructions,
@@ -57,5 +58,46 @@ export default function SingleCocktail(props) {
     }
     getCocktail();
   }, [id]);
-  return <h1>single cocktail page {id}</h1>;
+
+  if (loading) {
+    return <h2 className="section-title">Loading...</h2>;
+  }
+  if (!cocktail) {
+    return <h2 className="section-title">No cocktail to display</h2>;
+  }
+
+  const {
+    name,
+    image,
+    category,
+    info,
+    glass,
+    instructions,
+    ingredients,
+  } = cocktail;
+
+  return (
+    <section className="section cocktail-section">
+      <Link to="/" className="btn btn-primary">
+        Back home
+      </Link>
+      <h2 className="section-title">{name}</h2>
+      <div className="drink">
+        <img src={image} alt={name} />
+        <div className="drink-info">
+          <p>name : {name}</p>
+          <p>category : {category}</p>
+          <p>info : {info}</p>
+          <p>glass : {glass}</p>
+          <p>instructions : {instructions}</p>
+          <p>
+            ingredients :{" "}
+            {ingredients.map((item, index) => {
+              return item ? <span key={index}>{item}</span> : null;
+            })}
+          </p>
+        </div>
+      </div>
+    </section>
+  );
 }
